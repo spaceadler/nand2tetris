@@ -36,7 +36,7 @@ Others take the high levels of abstraction for granted and build things.
 But in order to achieve a deeper understanding of the Computer Sciences subject, I want to know what they are *really* made of.
 I need to build up the abstractions myself and use them, and eventually use this knowledge and transfer it to other domains.
 
-I'm currently building a general purpose 16-bit computer called the (Hack Computer), starting from the NAND gate, and ending with a high level OS running Tetris.
----
+I'm currently building a general purpose 16-bit computer called the (Hack Computer), starting from the NAND gate, and ending with a high level OS running Tetris
 
+---
 *powered by logic, coffee, and sleepless nights*
