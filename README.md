@@ -1,11 +1,6 @@
 # Opening the "blackbox": NAND2Tetris Implementation
 
-## Computers are a blackbox: 
-Some use them to surfe the web, processes words, and  sends emails.
-Others take the high levels of abstraction for granted and build things.
-
-But what are computers *really* made of? This is the goal of this repository.
-
+> "Computers are a black box. Some use them to surf the web, process words, and send emails. Others take the high levels of abstraction for granted and build things. But I want to know what they are *really* made of."
 I'm currently building a general purpose 16-bit computer called the (Hack Computer), starting from the NAND gate, and ending with a high level OS running Tetris.
 
 
@@ -31,6 +26,12 @@ I'm currently building a general purpose 16-bit computer called the (Hack Comput
 - [ ] Project 9: High-Level Language (Jack) Application
 - [ ] Project 10/11: The Compiler (Syntax Analysis & Code Gen)
 - [ ] Project 12: The Operating System (Math.jack, Screen.jack, etc.)
+
+
+## Dev Note
+During the design of the ALU, I dreamt of a custom compute instruction for an Assembly-like programming language that was called `40219`
+* Unsigned Binary: `1001 1101 0001 1011`
+* Its new purpose will be as a debug trigger.
 ---
 
 made possible with coffee and sleepless nights
