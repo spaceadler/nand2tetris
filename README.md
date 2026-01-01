@@ -8,14 +8,14 @@ But what are computers *really* made of? This is the goal of this repository.
 
 I'm currently building a general purpose 16-bit computer called the (Hack Computer), starting from the NAND gate, and ending with a high level OS running Tetris.
 
----
+
 ## System Architecture:
 * Architecture: [16-bit Von Neumann](https://en.wikipedia.org/wiki/Von_Neumann_architecture)
 * Hardware: HDL Implementation of a CPU, RAM, and ALU (as well as all the required logic gates)
 * Software: Assembler, Virtual Machine Translator, and Compiler completely self written.
 * OS: Standard Library (Math, Screen, Keyboard, and String) written in a Java-like language called Jack.
 
----
+
 ## Progress Log
 
 ### I. Hardware Layer (The Silicon)
@@ -32,5 +32,5 @@ I'm currently building a general purpose 16-bit computer called the (Hack Comput
 - [ ] Project 10/11: The Compiler (Syntax Analysis & Code Gen)
 - [ ] Project 12: The Operating System (Math.jack, Screen.jack, etc.)
 
----
+
 made possibly with coffee and sleepless nights
