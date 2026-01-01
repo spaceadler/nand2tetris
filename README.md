@@ -31,6 +31,6 @@ I'm currently building a general purpose 16-bit computer called the (Hack Comput
 - [ ] Project 9: High-Level Language (Jack) Application
 - [ ] Project 10/11: The Compiler (Syntax Analysis & Code Gen)
 - [ ] Project 12: The Operating System (Math.jack, Screen.jack, etc.)
-
+---
 
 made possibly with coffee and sleepless nights
