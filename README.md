@@ -33,4 +33,4 @@ I'm currently building a general purpose 16-bit computer called the (Hack Comput
 - [ ] Project 12: The Operating System (Math.jack, Screen.jack, etc.)
 ---
 
-made possibly with coffee and sleepless nights
+made possible with coffee and sleepless nights
