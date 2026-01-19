@@ -1,10 +1,6 @@
 # 16-Bit Hack Platform: From NAND to OS
 > A "First Principles" implementation of a full-scale computer architecture.
 
-## Motivation
-
-Computers are a black box. Some use them to surf the web, process words, and send emails. While others take the high levels of abstraction for granted and build things. But in order to achieve a deeper understanding of the Computer Sciences subject, I want to know what they are *really* made of. For this reason, I need to build up the abstractions myself and use them, to eventually transfer this knowledge to other domains. This is why I'm currently building a general purpose 16-bit computer called the (Hack Computer), starting from the NAND gate, and ending with a high level OS running Tetris with a goal of laying the groundwork for future kernel and embedded systems development (specific interest in Ring-0 development).
-
 ## System Architecture:
 * Architecture: [16-bit Von Neumann](https://en.wikipedia.org/wiki/Von_Neumann_architecture)
 * Hardware: HDL Implementation of a CPU, RAM, and ALU (as well as all the required logic gates)
@@ -44,6 +40,10 @@ A recursive hierarchy design. I constructed this by chaining RAM4K modules, whic
 Every chipset made here is derived from NAND in a "First Principles" fashion, where the NAND would contribute to the AND, MUX, their 16-bit versions, ADDER's, ALU's, RAM components, and eventually the Machine Language and CPU.
 
 Every chipset has passed all hardware simulation tests, in the course-provided Hardware Simulator. [here](https://nand2tetris.github.io/web-ide/chip/).
+
+## Motivation
+
+Computers are a black box. Some use them to surf the web, process words, and send emails. While others take the high levels of abstraction for granted and build things. But in order to achieve a deeper understanding of the Computer Sciences subject, I want to know what they are *really* made of. For this reason, I need to build up the abstractions myself and use them, to eventually transfer this knowledge to other domains. This is why I'm currently building a general purpose 16-bit computer called the (Hack Computer), starting from the NAND gate, and ending with a high level OS running Tetris with a goal of laying the groundwork for future kernel and embedded systems development (specific interest in Ring-0 development).
 
 ---
 *powered by logic, coffee, and sleepless nights*
