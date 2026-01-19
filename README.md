@@ -37,6 +37,10 @@ I'm currently building a general purpose 16-bit computer called the (Hack Comput
 - [ ] Project 10/11: The Compiler (Syntax Analysis & Code Gen)
 - [ ] Project 12: The Operating System (Math.jack, Screen.jack, etc.)
 
+## Implementation
+Every chipset made here is derived from NAND in a "First Principles" fashion, where the NAND would contribute to the AND, MUX, their 16-bit versions, ADDER's, ALU's, RAM components, and eventually the Machine Language and CPU.
+
+Every chipset has passed all hardware simulation tests, in the course-provided IDE [here](https://nand2tetris.github.io/web-ide/chip/).
 
 ## Dev Note
 During the design of the ALU, I dreamt of a custom compute instruction/function for an Assembly-like programming language that was called `40219`
