@@ -8,7 +8,7 @@ Computers are a black box. Some use them to surf the web, process words, and sen
 ## System Architecture:
 * Architecture: [16-bit Von Neumann](https://en.wikipedia.org/wiki/Von_Neumann_architecture)
 * Hardware: HDL Implementation of a CPU, RAM, and ALU (as well as all the required logic gates)
-* Software: Assembler, Virtual Machine Translator, and Compiler completely self written.
+* Software: Assembler, Virtual Machine Translator, and Compiler completely self-written.
 * OS: Standard Library (Math, Screen, Keyboard, and String) written in a Java-like language called Jack.
 
 
@@ -31,12 +31,14 @@ Computers are a black box. Some use them to surf the web, process words, and sen
 
 
 ## Technical Deep Dive: The ALU and RAM diagrams
-To show a working example example of this project, both the ALU and RAM are the best implementations to showcase; those 2 modules form the backbone of the CPU, where Boolean and Arithmetic computations and memory management are made.
+To demonstrate the architectural logic, both the ALU and RAM are the best implementations to showcase; those 2 modules form the backbone of the CPU, where Boolean and Arithmetic computations and memory management are made.
 
 ### ALU
+The compute engine. It utilizes a series of Mux16 and Add16 gates to perform 18 different computations based on just 6 control bits (zx, nx, zy, ny, f, no).
 <img width="1621" height="332" alt="Screenshot 2026-01-19 120720" src="https://github.com/user-attachments/assets/f58496d1-ceef-44d2-9326-34bbd03097f8" />
 
 ### RAM16k
+A recursive hierarchy design. I constructed this by chaining RAM4K modules, which themselves are built from RAM512, down to the single Bit Register. This ensures efficient address access via DMux logic.
 <img width="792" height="445" alt="Screenshot 2026-01-19 121538" src="https://github.com/user-attachments/assets/22645755-f679-435b-8464-4735220d7a9f" />
 
 
