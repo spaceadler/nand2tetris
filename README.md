@@ -11,7 +11,7 @@
 To demonstrate the architectural logic, both the ALU and RAM are the best implementations to showcase; those 2 modules form the backbone of the CPU, where Boolean and Arithmetic computations and memory management are made.
 
 ### ALU
-The compute engine. It utilizes a series of Mux16 and Add16 gates to perform 18 different computations based on just 6 control bits (zx, nx, zy, ny, f, no).
+The compute engine. It utilizes a series of Mux16 and Add16 gates to perform 18 different computations based on just 6 control bits (zeroing x, "not" x, zeroing y, "not" y, and/add function, "not" result) and outputs alongside status flags (if output is negative/zero) to support branching logic.
 
 <img width="1621" height="332" alt="Screenshot 2026-01-19 120720" src="https://github.com/user-attachments/assets/f58496d1-ceef-44d2-9326-34bbd03097f8" />
 
