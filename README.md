@@ -26,8 +26,8 @@ I'm currently building a general purpose 16-bit computer called the (Hack Comput
 ### I. Hardware Layer (The Silicon)
 - [x] Project 1: Boolean Logic (Nand, And, Or, Mux, DMux)
 - [x] Project 2: Boolean Arithmetic (HalfAdder, FullAdder, ALU)
-- [ ] Project 3: Sequential Logic (DFF, Bit, Register, RAM8/64/4K) <--- Currently here
-- [ ] Project 4: Machine Language
+- [x] Project 3: Sequential Logic (DFF, Bit, Register, RAM8/64/4K) 
+- [ ] Project 4: Machine Language <--- Currently here
 - [ ] Project 5: Computer Architecture (CPU & Memory Mapping)
 
 ### II. Software Hierarchy (The Virtualization)
