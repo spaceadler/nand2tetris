@@ -11,13 +11,25 @@ Computers are a black box. Some use them to surf the web, process words, and sen
 * Software: Assembler, Virtual Machine Translator, and Compiler completely self-written.
 * OS: Standard Library (Math, Screen, Keyboard, and String) written in a Java-like language called Jack.
 
+## Technical Deep Dive: The ALU and RAM diagrams
+To demonstrate the architectural logic, both the ALU and RAM are the best implementations to showcase; those 2 modules form the backbone of the CPU, where Boolean and Arithmetic computations and memory management are made.
+
+### ALU
+The compute engine. It utilizes a series of Mux16 and Add16 gates to perform 18 different computations based on just 6 control bits (zx, nx, zy, ny, f, no).
+
+<img width="1621" height="332" alt="Screenshot 2026-01-19 120720" src="https://github.com/user-attachments/assets/f58496d1-ceef-44d2-9326-34bbd03097f8" />
+
+### RAM16k
+A recursive hierarchy design. I constructed this by chaining RAM4K modules, which themselves are built from RAM512, down to the single Bit Register. This ensures efficient address access via DMux logic.
+
+<img width="792" height="445" alt="Screenshot 2026-01-19 121538" src="https://github.com/user-attachments/assets/22645755-f679-435b-8464-4735220d7a9f" />
 
 ## Progress Log
 
 ### I. Hardware Layer (The Silicon)
 - [x] Project 1: Boolean Logic (Nand, And, Or, Mux, DMux)
 - [x] Project 2: Boolean Arithmetic (HalfAdder, FullAdder, ALU)
-- [x] Project 3: Sequential Logic (DFF, Bit, Register, RAM8/64/4K) 
+- [x] Project 3: Sequential Logic (DFF, Bit, Register, RAM8/64/4K/16K) 
 - [ ] Project 4: Machine Language <--- Currently here
 - [ ] Project 5: Computer Architecture (CPU & Memory Mapping)
 
@@ -27,20 +39,6 @@ Computers are a black box. Some use them to surf the web, process words, and sen
 - [ ] Project 9: High-Level Language (Jack) Application
 - [ ] Project 10/11: The Compiler (Syntax Analysis & Code Gen)
 - [ ] Project 12: The Operating System (Math.jack, Screen.jack, etc.)
-
-
-
-## Technical Deep Dive: The ALU and RAM diagrams
-To demonstrate the architectural logic, both the ALU and RAM are the best implementations to showcase; those 2 modules form the backbone of the CPU, where Boolean and Arithmetic computations and memory management are made.
-
-### ALU
-The compute engine. It utilizes a series of Mux16 and Add16 gates to perform 18 different computations based on just 6 control bits (zx, nx, zy, ny, f, no).
-<img width="1621" height="332" alt="Screenshot 2026-01-19 120720" src="https://github.com/user-attachments/assets/f58496d1-ceef-44d2-9326-34bbd03097f8" />
-
-### RAM16k
-A recursive hierarchy design. I constructed this by chaining RAM4K modules, which themselves are built from RAM512, down to the single Bit Register. This ensures efficient address access via DMux logic.
-<img width="792" height="445" alt="Screenshot 2026-01-19 121538" src="https://github.com/user-attachments/assets/22645755-f679-435b-8464-4735220d7a9f" />
-
 
 ## Implementation
 Every chipset made here is derived from NAND in a "First Principles" fashion, where the NAND would contribute to the AND, MUX, their 16-bit versions, ADDER's, ALU's, RAM components, and eventually the Machine Language and CPU.
