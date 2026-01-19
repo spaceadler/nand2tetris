@@ -28,38 +28,17 @@ Computers are a black box. Some use them to surf the web, process words, and sen
 - [ ] Project 10/11: The Compiler (Syntax Analysis & Code Gen)
 - [ ] Project 12: The Operating System (Math.jack, Screen.jack, etc.)
 
-## Technical Deep Dive: The ALU Implementation
-To show a working example example of this project, the ALU is the best example; it is basically the "brain" of the CPU; where both Boolean and Arithmetic computations are made.
 
-```hdl
 
-    // Handling the X
-    Mux16(a=x , b=false , sel=zx , out=xmux );
-    Not16(in=xmux , out=notxmux );
-    Mux16(a=xmux , b=notxmux , sel=nx , out=xmux2 );
-   
-   // Handling the Y
-    Mux16(a=y , b=false , sel=zy , out=ymux );
-    Not16(in=ymux , out=notymux );
-    Mux16(a=ymux , b=notymux , sel=ny , out=ymux2 );
-    
-   // Adding, and-ing
-    And16(a=xmux2 , b=ymux2 , out=xyand );
-    Add16(a=xmux2 , b=ymux2 , out=xyadd );
-    
-    // Final checks
-    Mux16(a=xyand , b=xyadd , sel=f , out=outmux );
-    Not16(in=outmux , out=notoutmux );
-    
-    // Final output, "if negative", and "if zero"
-    Mux16(a=outmux , b=notoutmux , sel=no , out=out , out[15]=ng , out[0..7]=zr1 , out[8..15]=zr2);
-    
-    // Outputs "if zero"
-    Or8Way(in=zr1, out=or1);
-    Or8Way(in=zr2, out=or2);
-    Or(a=or1, b=or2, out=nonzero);
-    Not(in=nonzero, out=zr);
-```
+## Technical Deep Dive: The ALU and RAM diagrams
+To show a working example example of this project, both the ALU and RAM are the best implementations to showcase; those 2 modules form the backbone of the CPU, where Boolean and Arithmetic computations and memory management are made.
+
+### ALU
+<img width="1621" height="332" alt="Screenshot 2026-01-19 120720" src="https://github.com/user-attachments/assets/f58496d1-ceef-44d2-9326-34bbd03097f8" />
+
+### RAM16k
+<img width="792" height="445" alt="Screenshot 2026-01-19 121538" src="https://github.com/user-attachments/assets/22645755-f679-435b-8464-4735220d7a9f" />
+
 
 ## Implementation
 Every chipset made here is derived from NAND in a "First Principles" fashion, where the NAND would contribute to the AND, MUX, their 16-bit versions, ADDER's, ALU's, RAM components, and eventually the Machine Language and CPU.
