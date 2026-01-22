@@ -19,59 +19,67 @@ Every chipset has passed all hardware simulation tests, in the course-provided H
 ## General Overview
 The Silicon Substrate: From Logic Gates to Memory Arrays:
 
- ```mermaid
-    graph TD
-    %% 1. BOOLEAN LOGIC (The Alphabet)
+```mermaid
+graph TD
+    %% 1. BOOLEAN LOGIC
     subgraph Logic ["Phase 1: Boolean Logic"]
         Nand["Nand"]
+        And["And"]
+        Or["Or"]
+        Mux["Mux"]
+        DMux["DMux"]
         
         Nand --> And
         Nand --> Or
         Nand --> Mux
         Nand --> DMux
     end
-    
-    %% 2. BOOLEAN ARITHMETIC (The Math)
+
+    %% 2. BOOLEAN ARITHMETIC
     subgraph Arithmetic ["Phase 2: Boolean Arithmetic"]
         HA[HalfAdder]
         FA[FullAdder]
         ALU[ALU]
     end
-    
-    %% 3. SEQUENTIAL LOGIC (The State)
+
+    %% 3. SEQUENTIAL LOGIC
     subgraph Sequential ["Phase 3: Sequential Logic"]
         DFF["DFF (Time Primitive)"]
         Bit["Bit"]
         Register["Register (16-Bit)"]
         RAM8
-        RAM64
-        RAM512
         RAM4K
         RAM16K
     end
-    
-    %% CROSS-LAYER DEPENDENCIES
-    
-    %% Arithmetic relies on Logic
-    And --> HA
+
+    %% --- WIRING & DETAILS ---
+
+    %% HALF ADDER DETAIL (Sum = Xor, Carry = And)
+    %% Quotes added to labels to prevent parsing errors
+    And -->|"Carry Bit"| HA
+    Or -->|"Sum Logic (Xor)"| HA
+    Nand -->|"Sum Logic (Xor)"| HA
+
+    %% FULL ADDER (Built from HA + Or)
     HA --> FA
-    Or --> FA
-    FA --> ALU
-    Mux --> ALU
-    And --> ALU
-    Or --> ALU
+    Or -->|"Carry Propagation"| FA
+
+    %% ALU DETAIL (The Calculation Engine)
+    FA -->|"Addition (f=1)"| ALU
+    And -->|"Bitwise And (f=0)"| ALU
+    Mux -->|"Control Logic (zx, nx, zy, ny, f, no)"| ALU
+    Or -->|"Output Flags (zr, ng)"| ALU
+
+    %% SEQUENTIAL / MEMORY RECURSION
+    DFF -->|"Feedback Loop"| Bit
+    Mux -->|"Load/Keep Selection"| Bit
     
-    %% Sequential relies on Logic (Mux) and Time (DFF)
-    DFF --> Bit
-    Mux --> Bit
+    Bit -->|x16| Register
+    Register -->|x8| RAM8
     
-    %% Recursive Memory Construction
-    Bit --> Register
-    Register --> RAM8
-    RAM8 --> RAM64
-    RAM64 --> RAM512
-    RAM512 --> RAM4K
-    RAM4K --> RAM16K
+    %% The Abstracted Recursion
+    RAM8 -.->|"Recursive Layering (x8...)"| RAM4K
+    RAM4K -.->|x4| RAM16K
 ```
 
 ## Technical Deep Dive: The ALU and RAM diagrams
