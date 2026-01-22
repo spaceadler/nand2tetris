@@ -113,13 +113,13 @@ The compute engine. It utilizes a series of `Mux16` and `Add16` gates to perform
 
 It also outputs status flags (`zr` for zero, `ng` for negative) to support branching logic in the CPU.
 
-<img width="100%" alt="ALU Diagram" src="[https://github.com/user-attachments/assets/f58496d1-ceef-44d2-9326-34bbd03097f8](https://github.com/user-attachments/assets/f58496d1-ceef-44d2-9326-34bbd03097f8)" />
+<img width="1621" height="332" alt="Screenshot 2026-01-19 120720" src="https://github.com/user-attachments/assets/f58496d1-ceef-44d2-9326-34bbd03097f8" />
 
-## Memory Hierarchy
 
 The RAM16K is a recursive hierarchy design. I constructed this by chaining `RAM4K` modules, which themselves are built from `RAM512`, down to the single Bit Register. This ensures efficient address access via `DMux` logic.
 
-<img width="60%" alt="RAM Diagram" src="[https://github.com/user-attachments/assets/22645755-f679-435b-8464-4735220d7a9f](https://github.com/user-attachments/assets/22645755-f679-435b-8464-4735220d7a9f)" />
+
+<img width="792" height="445" alt="Screenshot 2026-01-19 121538" src="https://github.com/user-attachments/assets/22645755-f679-435b-8464-4735220d7a9f" />
 
 # The Software Stack
 
