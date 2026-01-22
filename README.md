@@ -44,6 +44,9 @@ graph TD
         Bit["Bit"]
         Register["Register (16-Bit)"]
         RAM8
+        RAM64
+        RAM512
+        RAM4K
         RAM16K
     end
 
@@ -65,7 +68,9 @@ graph TD
     %% Recursive Memory Construction
     Bit --> Register
     Register --> RAM8
-    RAM8 -->|x8| RAM64 (Recursive)| RAM4K
+    RAM8 -->|x8| RAM64
+    RAM64 -->|x8| RAM512
+    RAM512 -->|x8| RAM4K
     RAM4K -->|x4| RAM16K
 ```
 
