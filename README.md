@@ -2,7 +2,7 @@
 
 > A "First Principles" implementation of a full-scale 16-bit computer architecture, built from the NAND gate up to the Operating System.
 
-![Architecture](https://img.shields.io/badge/16-bit-von-Neumann-blue)
+![Architecture](https://img.shields.io/badge/16-bit-von-Neumann-success)
 ![Hardware](https://img.shields.io/badge/HDL-orange)
 ![Software](https://img.shields.io/badge/Jack%20(Java-like)-lightgrey)
 
