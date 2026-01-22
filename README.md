@@ -19,7 +19,8 @@ Every chipset has passed all hardware simulation tests, in the course-provided H
 ## General Overview
 The Silicon Substrate: From Logic Gates to Memory Arrays:
 
- ```mermaidgraph TD
+ ```mermaid
+    graph TD
     %% 1. BOOLEAN LOGIC (The Alphabet)
     subgraph Logic ["Phase 1: Boolean Logic"]
         Nand["Nand"]
