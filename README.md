@@ -1,7 +1,7 @@
 # 16-Bit Hack Platform: From NAND to OS
 > A "First Principles" implementation of a full-scale computer architecture.
 
-## System Architecture:
+## Desired System Architecture:
 * Architecture: [16-bit Von Neumann](https://en.wikipedia.org/wiki/Von_Neumann_architecture)
 * Hardware: HDL Implementation of a CPU, RAM, and ALU (as well as all the required logic gates)
 * Software: Assembler, Virtual Machine Translator, and Compiler completely self-written.
