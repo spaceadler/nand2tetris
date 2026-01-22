@@ -7,6 +7,15 @@
 * Software: Assembler, Virtual Machine Translator, and Compiler completely self-written.
 * OS: Standard Library (Math, Screen, Keyboard, and String) written in a Java-like language called Jack.
 
+## Implementation
+Every chipset made here is derived from NAND in a "First Principles" fashion, where the NAND would contribute to the AND, MUX, their 16-bit versions, ADDER's, ALU's, RAM components, and eventually the Machine Language and CPU.
+
+Every chipset has passed all hardware simulation tests, in the course-provided Hardware Simulator. [here](https://nand2tetris.github.io/web-ide/chip/).
+
+## Motivation
+
+Computers are a black box. Some use them to surf the web, process words, and send emails. While others take the high levels of abstraction for granted and build things. But in order to achieve a deeper understanding of the Computer Sciences subject, I want to know what they are *really* made of. For this reason, I need to build up the abstractions myself and use them, to eventually transfer this knowledge to other domains. This is why I'm currently building a general purpose 16-bit computer called the (Hack Computer), starting from the NAND gate, and ending with a high level OS running Tetris with a goal of laying the groundwork for future kernel and embedded systems development (specific interest in Ring-0 development).
+
 ## Technical Deep Dive: The ALU and RAM diagrams
 To demonstrate the architectural logic, both the ALU and RAM are the best implementations to showcase; those 2 modules form the backbone of the CPU, where Boolean and Arithmetic computations and memory management are made.
 
@@ -35,15 +44,6 @@ A recursive hierarchy design. I constructed this by chaining RAM4K modules, whic
 - [ ] Project 9: High-Level Language (Jack) Application
 - [ ] Project 10/11: The Compiler (Syntax Analysis & Code Gen)
 - [ ] Project 12: The Operating System (Math.jack, Screen.jack, etc.)
-
-## Implementation
-Every chipset made here is derived from NAND in a "First Principles" fashion, where the NAND would contribute to the AND, MUX, their 16-bit versions, ADDER's, ALU's, RAM components, and eventually the Machine Language and CPU.
-
-Every chipset has passed all hardware simulation tests, in the course-provided Hardware Simulator. [here](https://nand2tetris.github.io/web-ide/chip/).
-
-## Motivation
-
-Computers are a black box. Some use them to surf the web, process words, and send emails. While others take the high levels of abstraction for granted and build things. But in order to achieve a deeper understanding of the Computer Sciences subject, I want to know what they are *really* made of. For this reason, I need to build up the abstractions myself and use them, to eventually transfer this knowledge to other domains. This is why I'm currently building a general purpose 16-bit computer called the (Hack Computer), starting from the NAND gate, and ending with a high level OS running Tetris with a goal of laying the groundwork for future kernel and embedded systems development (specific interest in Ring-0 development).
 
 ---
 *powered by logic, coffee, and sleepless nights*
