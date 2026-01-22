@@ -47,7 +47,6 @@ graph TD
         DFF["Flip Flop"]
         Bit["Bit"]
         Register["Register (16-Bit)"]
-        RAM8
         RAM4K
         RAM16K
     end
