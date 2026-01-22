@@ -44,7 +44,7 @@ graph TD
 
     %% 3. SEQUENTIAL LOGIC
     subgraph Sequential ["Phase 3: Sequential Logic"]
-        DFF["DFF (Time Primitive)"]
+        DFF["Flip Flop"]
         Bit["Bit"]
         Register["Register (16-Bit)"]
         RAM8
@@ -54,17 +54,19 @@ graph TD
 
     %% --- WIRING & DETAILS ---
 
-    %% HALF ADDER DETAIL (Sum = Xor, Carry = And)
-    %% Quotes added to labels to prevent parsing errors
+    %% THE PHYSICAL REALITY (Nand creates the Latch inside the Flip Flop)
+    Nand --> DFF
+
+    %% HALF ADDER DETAIL
     And -->|"Carry Bit"| HA
     Or -->|"Sum Logic (Xor)"| HA
     Nand -->|"Sum Logic (Xor)"| HA
 
-    %% FULL ADDER (Built from HA + Or)
+    %% FULL ADDER
     HA --> FA
     Or -->|"Carry Propagation"| FA
 
-    %% ALU DETAIL (The Calculation Engine)
+    %% ALU DETAIL
     FA -->|"Addition (f=1)"| ALU
     And -->|"Bitwise And (f=0)"| ALU
     Mux -->|"Control Logic (zx, nx, zy, ny, f, no)"| ALU
@@ -75,10 +77,9 @@ graph TD
     Mux -->|"Load/Keep Selection"| Bit
     
     Bit -->|x16| Register
-    Register -->|x8| RAM8
     
     %% The Abstracted Recursion
-    RAM8 -.->|"Recursive Layering (x8...)"| RAM4K
+    Register -.->|"Recursive Layering (x8...)"| RAM4K
     RAM4K -.->|x4| RAM16K
 ```
 
