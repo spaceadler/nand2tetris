@@ -200,4 +200,4 @@ To run the HDL simulations:
 
 ---
 
-*powered by logic, coffee, and sleepless nights*
+*powered by logic, coffee, and many sleepless nights*
