@@ -187,12 +187,13 @@ To run the HDL simulations:
 * [x] **Project 1:** Boolean Logic (Nand, And, Or, Mux, DMux)
 * [x] **Project 2:** Boolean Arithmetic (HalfAdder, FullAdder, ALU)
 * [x] **Project 3:** Sequential Logic (DFF, Bit, Register, RAM8/64/4K/16K)
-* [ ] **Project 4:** Machine Language <--- Currently here
-* [ ] **Project 5:** Computer Architecture (CPU & Memory Mapping)
+* [x] **Project 4:** Machine Language
+* [x] **Project 5:** The Assembler
+* [x] **Project 6:** Computer Architecture (CPU & Memory Mapping) <--- (NAND2Tetris Part 1 sucessfully finished.)
 
 ### II. Software Hierarchy (The Virtualization)
 
-* [ ] **Project 6:** The Assembler
+
 * [ ] **Project 7/8:** VM Translator (Stack Arithmetic & Control Flow)
 * [ ] **Project 9:** High-Level Language (Jack) Application
 * [ ] **Project 10/11:** The Compiler (Syntax Analysis & Code Gen)
