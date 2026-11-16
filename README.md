@@ -184,5 +184,7 @@ Load any `.hdl` into the [Nand2Tetris Web IDE](https://nand2tetris.github.io/web
 - [ ] **Projects 10–11:** Compiler
 - [ ] **Project 12:** Operating System
 
+**Codemap:** [CODEMAP.md](CODEMAP.md), the chip hierarchy and the assembler's functions, generated from the code.
+
 ---
 *powered by logic, coffee, and many sleepless nights*
