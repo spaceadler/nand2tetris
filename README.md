@@ -40,22 +40,112 @@ flowchart BT
     RAM16K --> Memory
 ```
 
-## Architecture
+## The Hardware, Wire by Wire
+
+Every diagram below is drawn from its `.hdl` file: boxes are parts, edge labels are the actual wire names.
+
+### Memory (`05_Computer/Memory.hdl`)
 
 ```mermaid
 flowchart LR
-    subgraph MEM["Memory (address map)"]
-        RAM["0x0000–0x3FFF<br/>RAM16K"]
-        SCR["0x4000–0x5FFF<br/>Screen"]
-        KBD["0x6000<br/>Keyboard"]
-    end
-    ROM["ROM32K<br/>program"] -->|"instruction"| CPU
-    CPU -->|"pc"| ROM
-    CPU -->|"addressM, outM, writeM"| MEM
-    MEM -->|"inM"| CPU
+    load(["load"]) --> d1["DMux<br/>sel = address[14]"]
+    d1 -->|ram| ram
+    d1 -->|scrkey| d2["DMux<br/>sel = address[13]"]
+    d2 -->|scr| scr
+    d2 -.->|"key (unused: the keyboard is read-only)"| kbd
+
+    inp(["in[16]"]) --> ram & scr
+    ram["RAM16K<br/>address[0..13]"] -->|ramOut| m3
+    scr["Screen<br/>address[0..12]"] -->|scrOut| m2
+    kbd["Keyboard"] -->|keyOut| mk
+
+    lo["Or8Way<br/>address[0..7]"] -->|lowBits| past["Or"]
+    hi["Or8Way<br/>address[8..12]"] -->|highBits| past
+    past -->|pastKbd| mk["Mux16<br/>b = false"]
+    mk -->|kbdOrZero| m2["Mux16<br/>sel = address[13]"]
+    m2 -->|scrKeyOut| m3["Mux16<br/>sel = address[14]"]
+    m3 --> out(["out[16]"])
 ```
 
-**ALU:** six control bits (`zx nx zy ny f no`) select 18 functions; `ng` is `out[15]`, and `zr` is two `Or8Way`s on the halves. **CPU:** `A`/`D` registers and the ALU, with jumps decoded from `zr`/`ng` and gated on `instruction[15]`. **Memory:** addresses past `0x6000` read 0.
+| Address | Goes to |
+|---|---|
+| `0x0000–0x3FFF` | RAM16K (`address[14] = 0`) |
+| `0x4000–0x5FFF` | Screen (`address[14..13] = 10`) |
+| `0x6000` | Keyboard (`address[14..13] = 11`, low 13 bits all 0) |
+| above `0x6000` | reads 0 (`pastKbd` zeroes the keyboard path) |
+
+### ALU (`02_Boolean_Arithmetic/ALU.hdl`)
+
+```mermaid
+flowchart LR
+    x(["x[16]"]) --> zx["Mux16<br/>sel = zx, b = 0"]
+    zx -->|xmux| nx["Mux16<br/>sel = nx"]
+    zx -->|xmux| notx["Not16"] -->|notxmux| nx
+    y(["y[16]"]) --> zy["Mux16<br/>sel = zy, b = 0"]
+    zy -->|ymux| ny["Mux16<br/>sel = ny"]
+    zy -->|ymux| noty["Not16"] -->|notymux| ny
+
+    nx -->|xmux2| and16["And16"] & add16["Add16"]
+    ny -->|ymux2| and16 & add16
+    and16 -->|xyand| f["Mux16<br/>sel = f"]
+    add16 -->|xyadd| f
+    f -->|outmux| no["Mux16<br/>sel = no"]
+    f -->|outmux| noto["Not16"] -->|notoutmux| no
+    no --> out(["out[16]"])
+
+    no -->|"out[15]"| ng(["ng"])
+    no -->|"zr1 = out[0..7]"| o1["Or8Way"]
+    no -->|"zr2 = out[8..15]"| o2["Or8Way"]
+    o1 -->|or1| or["Or"]
+    o2 -->|or2| or
+    or -->|nonzero| not["Not"] --> zr(["zr"])
+```
+
+Six control bits pick 18 functions: `zx nx` prepare `x`, `zy ny` prepare `y`, `f` chooses add or and, and `no` negates the result.
+
+### CPU (`05_Computer/CPU.hdl`): where the ALU lives
+
+```mermaid
+flowchart LR
+    ins(["instruction[16]"]) --> amux["Mux16<br/>sel = instruction[15]"]
+    amux -->|aMuxOut| areg["ARegister<br/>load = aRegLoad"]
+    areg -->|aRegOut| ymux["Mux16<br/>sel = instruction[12]"]
+    inM(["inM[16]"]) --> ymux
+    ymux -->|aOrM| alu
+    dreg["DRegister<br/>load = loadD"] -->|outD| alu["ALU<br/>zx..no = instruction[11..6]"]
+    alu -->|aluOut| amux & dreg
+    alu -->|outM| outM(["outM[16]"])
+    areg -->|"addressM = aRegOut[0..14]"| addr(["addressM[15]"])
+
+    alu -->|"zr, ng"| jmp["jump logic<br/>jlt · jeq · jgt from instruction[2..0]"]
+    jmp -->|"PCload (gated by instruction[15])"| pc["PC<br/>inc = true"]
+    areg -->|aRegOut| pc
+    rst(["reset"]) --> pc
+    pc -->|"pc[0..14]"| pcout(["pc[15]"])
+    ins -->|"instruction[15] and [3]"| wm(["writeM"])
+```
+
+| Control wire | Built from | Means |
+|---|---|---|
+| `aRegLoad` | `not i[15]` or (`i[15]` and `i[5]`) | A-instruction, or a C-instruction with `d1` |
+| `loadD` | `i[15]` and `i[4]` | C-instruction with `d2` |
+| `writeM` | `i[15]` and `i[3]` | C-instruction with `d3` |
+| `PCload` | `i[15]` and (`jlt` or `jeq` or `jgt`) | the jump condition holds; `pos = not (zr or ng)` |
+
+### The Computer (`05_Computer/Computer.hdl`): how they connect
+
+```mermaid
+flowchart LR
+    rom["ROM32K<br/>the program"] -->|application| cpu["CPU"]
+    cpu -->|counter| rom
+    cpu -->|"memin (outM)"| mem["Memory"]
+    cpu -->|"memload (writeM)"| mem
+    cpu -->|"memaddress (addressM)"| mem
+    mem -->|"memOut (inM)"| cpu
+    reset(["reset"]) --> cpu
+```
+
+One cycle: `ROM32K[counter]` is the instruction, the CPU computes it against `memOut`, writes `memin` to `memaddress` when `memload` is set, and the PC picks the next `counter`.
 
 ## Software
 
