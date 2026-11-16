@@ -1,6 +1,6 @@
 // for (i=0; i<n; i++)
 // {
-//        arr[i] =- 1
+//        arr[i] = -1
 // }
 
 // Suppose that arr=100 and n=10
@@ -11,11 +11,16 @@
         @I
         M=0             // I = 0
 
+        @10
+        D=A
         @N
-        M=10            // N = 10
+        M=D             // N = 10 (Hack can only write 0, 1 or -1 straight to M,
+                        // so the constant goes through A and D first)
 
+        @100
+        D=A
         @ARR
-        M=100           // ARR = 100
+        M=D             // ARR = 100
 
 // make a loop that does the following:
 //
@@ -36,7 +41,7 @@
         D=D-M   // n - i
 
         @END
-        0;JEQ   // If n - i = 0 (basically n = i) then jump to end, else continue
+        D;JEQ   // If n - i = 0 (basically n = i) then jump to end, else continue
 
         @ARR
         D=M
