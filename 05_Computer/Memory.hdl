@@ -32,6 +32,13 @@ CHIP Memory {
     Screen(in=in , load=scr , address=address[0..12] , out=scrOut );
     Keyboard(out=keyOut );
 
-    Mux16(a=scrOut , b=keyOut , sel=address[13] , out=scrKeyOut );
+    // only 0x6000 itself is the keyboard: anything above it (any of the low
+    // 13 bits set while 14 and 13 are) is invalid and has to read 0
+    Or8Way(in=address[0..7] , out=lowBits );
+    Or8Way(in[0..4]=address[8..12] , in[5..7]=false , out=highBits );
+    Or(a=lowBits , b=highBits , out=pastKbd );
+    Mux16(a=keyOut , b=false , sel=pastKbd , out=kbdOrZero );
+
+    Mux16(a=scrOut , b=kbdOrZero , sel=address[13] , out=scrKeyOut );
     Mux16(a=ramOut , b=scrKeyOut , sel=address[14] , out=out );
 }
