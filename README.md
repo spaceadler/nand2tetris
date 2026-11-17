@@ -47,7 +47,7 @@ Every diagram below is drawn from its `.hdl` file: boxes are parts, edge labels 
 ### Memory (`05_Computer/Memory.hdl`)
 
 ```mermaid
-flowchart LR
+flowchart TB
     load(["load"]) --> d1["DMux<br/>sel = address[14]"]
     d1 -->|ram| ram
     d1 -->|scrkey| d2["DMux<br/>sel = address[13]"]
@@ -77,7 +77,7 @@ flowchart LR
 ### ALU (`02_Boolean_Arithmetic/ALU.hdl`)
 
 ```mermaid
-flowchart LR
+flowchart TB
     x(["x[16]"]) --> zx["Mux16<br/>sel = zx, b = 0"]
     zx -->|xmux| nx["Mux16<br/>sel = nx"]
     zx -->|xmux| notx["Not16"] -->|notxmux| nx
@@ -106,7 +106,7 @@ Six control bits pick 18 functions: `zx nx` prepare `x`, `zy ny` prepare `y`, `f
 ### CPU (`05_Computer/CPU.hdl`): where the ALU lives
 
 ```mermaid
-flowchart LR
+flowchart TB
     ins(["instruction[16]"]) --> amux["Mux16<br/>sel = instruction[15]"]
     amux -->|aMuxOut| areg["ARegister<br/>load = aRegLoad"]
     areg -->|aRegOut| ymux["Mux16<br/>sel = instruction[12]"]
