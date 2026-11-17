@@ -2,92 +2,112 @@
 
 ← [README](README.md)
 
-> Generated from commit `1823832` by `scripts/codemap.py`. Regenerate it from the workspace root with `python3 scripts/codemap.py nand2tetris`; don't edit it by hand.
+> Generated from commit `b6f9aef` by `scripts/codemap.py`. Regenerate it from the workspace root with `python3 scripts/codemap.py nand2tetris`; don't edit it by hand.
 
 ## Chips
 
-Which chip is built from which. A number on an arrow is how many of that part it uses; built-in chips: `ARegister`, `DFF`, `DRegister`, `Keyboard`, `Nand`, `ROM32K`, `Screen`.
+Which chip is built from which, one graph per folder so each stays readable. A number on an arrow is how many of that part it uses; built-in chips: `ARegister`, `DFF`, `DRegister`, `Keyboard`, `Nand`, `ROM32K`, `Screen`.
+
+### `01_Boolean_Logic`
 
 ```mermaid
-flowchart BT
-    n_Nand[Nand] -->n_And[And]
-    n_Not[Not] -->n_And[And]
+flowchart LR
+    n_Nand[Nand] --> n_And[And]
+    n_Not[Not] --> n_And[And]
     n_And[And] -->|16| n_And16[And16]
     n_And[And] -->|2| n_DMux[DMux]
-    n_Not[Not] -->n_DMux[DMux]
+    n_Not[Not] --> n_DMux[DMux]
     n_DMux[DMux] -->|3| n_DMux4Way[DMux4Way]
-    n_DMux[DMux] -->n_DMux8Way[DMux8Way]
+    n_DMux[DMux] --> n_DMux8Way[DMux8Way]
     n_DMux4Way[DMux4Way] -->|2| n_DMux8Way[DMux8Way]
     n_And[And] -->|2| n_Mux[Mux]
-    n_Not[Not] -->n_Mux[Mux]
-    n_Or[Or] -->n_Mux[Mux]
+    n_Not[Not] --> n_Mux[Mux]
+    n_Or[Or] --> n_Mux[Mux]
     n_Mux[Mux] -->|16| n_Mux16[Mux16]
     n_Mux16[Mux16] -->|3| n_Mux4Way16[Mux4Way16]
-    n_Mux16[Mux16] -->n_Mux8Way16[Mux8Way16]
+    n_Mux16[Mux16] --> n_Mux8Way16[Mux8Way16]
     n_Mux4Way16[Mux4Way16] -->|2| n_Mux8Way16[Mux8Way16]
-    n_Nand[Nand] -->n_Not[Not]
+    n_Nand[Nand] --> n_Not[Not]
     n_Not[Not] -->|16| n_Not16[Not16]
-    n_Nand[Nand] -->n_Or[Or]
+    n_Nand[Nand] --> n_Or[Or]
     n_Not[Not] -->|2| n_Or[Or]
     n_Or[Or] -->|16| n_Or16[Or16]
     n_Or[Or] -->|7| n_Or8Way[Or8Way]
     n_And[And] -->|2| n_Xor[Xor]
     n_Not[Not] -->|2| n_Xor[Xor]
-    n_Or[Or] -->n_Xor[Xor]
-    n_Add16[Add16] -->n_ALU[ALU]
-    n_And16[And16] -->n_ALU[ALU]
+    n_Or[Or] --> n_Xor[Xor]
+```
+
+### `02_Boolean_Arithmetic`
+
+```mermaid
+flowchart LR
+    n_Add16[Add16] --> n_ALU[ALU]
+    n_And16[And16] --> n_ALU[ALU]
     n_Mux16[Mux16] -->|6| n_ALU[ALU]
-    n_Not[Not] -->n_ALU[ALU]
+    n_Not[Not] --> n_ALU[ALU]
     n_Not16[Not16] -->|3| n_ALU[ALU]
-    n_Or[Or] -->n_ALU[ALU]
+    n_Or[Or] --> n_ALU[ALU]
     n_Or8Way[Or8Way] -->|2| n_ALU[ALU]
     n_FullAdder[FullAdder] -->|15| n_Add16[Add16]
-    n_HalfAdder[HalfAdder] -->n_Add16[Add16]
+    n_HalfAdder[HalfAdder] --> n_Add16[Add16]
     n_And[And] -->|2| n_FullAdder[FullAdder]
-    n_Or[Or] -->n_FullAdder[FullAdder]
+    n_Or[Or] --> n_FullAdder[FullAdder]
     n_Xor[Xor] -->|2| n_FullAdder[FullAdder]
-    n_And[And] -->n_HalfAdder[HalfAdder]
-    n_Xor[Xor] -->n_HalfAdder[HalfAdder]
-    n_Add16[Add16] -->n_Inc16[Inc16]
-    n_DFF[DFF] -->n_Bit[Bit]
-    n_Mux[Mux] -->n_Bit[Bit]
-    n_Inc16[Inc16] -->n_PC[PC]
+    n_And[And] --> n_HalfAdder[HalfAdder]
+    n_Xor[Xor] --> n_HalfAdder[HalfAdder]
+    n_Add16[Add16] --> n_Inc16[Inc16]
+```
+
+### `03_Sequential_Logic`
+
+```mermaid
+flowchart LR
+    n_DFF[DFF] --> n_Bit[Bit]
+    n_Mux[Mux] --> n_Bit[Bit]
+    n_Inc16[Inc16] --> n_PC[PC]
     n_Mux16[Mux16] -->|3| n_PC[PC]
-    n_Register[Register] -->n_PC[PC]
-    n_DMux4Way[DMux4Way] -->n_RAM16K[RAM16K]
-    n_Mux4Way16[Mux4Way16] -->n_RAM16K[RAM16K]
+    n_Register[Register] --> n_PC[PC]
+    n_DMux4Way[DMux4Way] --> n_RAM16K[RAM16K]
+    n_Mux4Way16[Mux4Way16] --> n_RAM16K[RAM16K]
     n_RAM4K[RAM4K] -->|4| n_RAM16K[RAM16K]
-    n_DMux8Way[DMux8Way] -->n_RAM4K[RAM4K]
-    n_Mux8Way16[Mux8Way16] -->n_RAM4K[RAM4K]
+    n_DMux8Way[DMux8Way] --> n_RAM4K[RAM4K]
+    n_Mux8Way16[Mux8Way16] --> n_RAM4K[RAM4K]
     n_RAM512[RAM512] -->|8| n_RAM4K[RAM4K]
-    n_DMux8Way[DMux8Way] -->n_RAM512[RAM512]
-    n_Mux8Way16[Mux8Way16] -->n_RAM512[RAM512]
+    n_DMux8Way[DMux8Way] --> n_RAM512[RAM512]
+    n_Mux8Way16[Mux8Way16] --> n_RAM512[RAM512]
     n_RAM64[RAM64] -->|8| n_RAM512[RAM512]
-    n_DMux8Way[DMux8Way] -->n_RAM64[RAM64]
-    n_Mux8Way16[Mux8Way16] -->n_RAM64[RAM64]
+    n_DMux8Way[DMux8Way] --> n_RAM64[RAM64]
+    n_Mux8Way16[Mux8Way16] --> n_RAM64[RAM64]
     n_RAM8[RAM8] -->|8| n_RAM64[RAM64]
-    n_DMux8Way[DMux8Way] -->n_RAM8[RAM8]
-    n_Mux8Way16[Mux8Way16] -->n_RAM8[RAM8]
+    n_DMux8Way[DMux8Way] --> n_RAM8[RAM8]
+    n_Mux8Way16[Mux8Way16] --> n_RAM8[RAM8]
     n_Register[Register] -->|8| n_RAM8[RAM8]
     n_Bit[Bit] -->|16| n_Register[Register]
-    n_ALU[ALU] -->n_CPU[CPU]
-    n_ARegister[ARegister] -->n_CPU[CPU]
+```
+
+### `05_Computer`
+
+```mermaid
+flowchart LR
+    n_ALU[ALU] --> n_CPU[CPU]
+    n_ARegister[ARegister] --> n_CPU[CPU]
     n_And[And] -->|7| n_CPU[CPU]
-    n_DRegister[DRegister] -->n_CPU[CPU]
+    n_DRegister[DRegister] --> n_CPU[CPU]
     n_Mux16[Mux16] -->|2| n_CPU[CPU]
     n_Not[Not] -->|2| n_CPU[CPU]
     n_Or[Or] -->|4| n_CPU[CPU]
-    n_PC[PC] -->n_CPU[CPU]
-    n_CPU[CPU] -->n_Computer[Computer]
-    n_Memory[Memory] -->n_Computer[Computer]
-    n_ROM32K[ROM32K] -->n_Computer[Computer]
+    n_PC[PC] --> n_CPU[CPU]
+    n_CPU[CPU] --> n_Computer[Computer]
+    n_Memory[Memory] --> n_Computer[Computer]
+    n_ROM32K[ROM32K] --> n_Computer[Computer]
     n_DMux[DMux] -->|2| n_Memory[Memory]
-    n_Keyboard[Keyboard] -->n_Memory[Memory]
+    n_Keyboard[Keyboard] --> n_Memory[Memory]
     n_Mux16[Mux16] -->|3| n_Memory[Memory]
-    n_Or[Or] -->n_Memory[Memory]
+    n_Or[Or] --> n_Memory[Memory]
     n_Or8Way[Or8Way] -->|2| n_Memory[Memory]
-    n_RAM16K[RAM16K] -->n_Memory[Memory]
-    n_Screen[Screen] -->n_Memory[Memory]
+    n_RAM16K[RAM16K] --> n_Memory[Memory]
+    n_Screen[Screen] --> n_Memory[Memory]
 ```
 
 | Chip | File | Parts |
