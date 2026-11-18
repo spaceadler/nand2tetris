@@ -13,31 +13,16 @@ Every chip here derives from `Nand` (plus the course's built-in `DFF`). The poin
 ## The Silicon Stack
 
 ```mermaid
-flowchart BT
-    subgraph P1["Project 1: Boolean Logic"]
-        Nand --> Not & And & Or
-        And & Or & Not --> Xor & Mux & DMux
-        Mux --> Mux16 --> Mux4Way16 --> Mux8Way16
-        DMux --> DMux4Way --> DMux8Way
-    end
-    subgraph P2["Project 2: Arithmetic"]
-        HalfAdder --> FullAdder --> Add16 --> Inc16
-        Add16 --> ALU
-    end
-    subgraph P3["Project 3: Memory"]
-        DFF --> Bit --> Register --> RAM8 --> RAM64 --> RAM512 --> RAM4K --> RAM16K
-        Register --> PC
-    end
-    subgraph P5["Project 5: Computer"]
-        CPU --> Computer
-        Memory --> Computer
-    end
-    Xor --> HalfAdder
-    Mux16 --> ALU
-    Inc16 --> PC
-    ALU --> CPU
-    PC --> CPU
-    RAM16K --> Memory
+flowchart TB
+    p1["Project 1 · Boolean logic<br/>Nand → Not, And, Or → Xor, Mux, DMux<br/>→ 16-bit and multi-way versions"]
+    p2["Project 2 · Arithmetic<br/>HalfAdder → FullAdder → Add16 → Inc16, ALU"]
+    p3["Project 3 · Memory<br/>DFF → Bit → Register → RAM8 … RAM16K, PC"]
+    p5["Project 5 · Computer<br/>CPU, Memory, Computer"]
+    p1 -->|"Xor, Mux16"| p2
+    p1 -->|"Mux, DMux"| p3
+    p2 -->|"Inc16"| p3
+    p2 -->|"ALU"| p5
+    p3 -->|"Register, PC, RAM16K"| p5
 ```
 
 ## The Hardware, Wire by Wire
@@ -49,21 +34,23 @@ Every diagram below is drawn from its `.hdl` file: boxes are parts, edge labels 
 ```mermaid
 flowchart TB
     load(["load"]) --> d1["DMux<br/>sel = address[14]"]
-    d1 -->|ram| ram
+    d1 -->|ram| ram["RAM16K<br/>address[0..13]"]
     d1 -->|scrkey| d2["DMux<br/>sel = address[13]"]
-    d2 -->|scr| scr
-    d2 -.->|"key (unused: the keyboard is read-only)"| kbd
-
+    d2 -->|scr| scr["Screen<br/>address[0..12]"]
+    d2 -.->|"key (unused: the keyboard is read-only)"| kbd["Keyboard"]
     inp(["in[16]"]) --> ram & scr
-    ram["RAM16K<br/>address[0..13]"] -->|ramOut| m3
-    scr["Screen<br/>address[0..12]"] -->|scrOut| m2
-    kbd["Keyboard"] -->|keyOut| mk
+```
 
-    lo["Or8Way<br/>address[0..7]"] -->|lowBits| past["Or"]
-    hi["Or8Way<br/>address[8..12]"] -->|highBits| past
-    past -->|pastKbd| mk["Mux16<br/>b = false"]
+Reading goes back the other way, through three muxes:
+
+```mermaid
+flowchart TB
+    past["Or8Way address[0..7] · Or8Way address[8..12]<br/>→ Or → pastKbd"] -->|pastKbd| mk["Mux16<br/>b = false"]
+    kbd["Keyboard"] -->|keyOut| mk
     mk -->|kbdOrZero| m2["Mux16<br/>sel = address[13]"]
+    scr["Screen"] -->|scrOut| m2
     m2 -->|scrKeyOut| m3["Mux16<br/>sel = address[14]"]
+    ram["RAM16K"] -->|ramOut| m3
     m3 --> out(["out[16]"])
 ```
 
@@ -92,13 +79,8 @@ flowchart TB
     f -->|outmux| no["Mux16<br/>sel = no"]
     f -->|outmux| noto["Not16"] -->|notoutmux| no
     no --> out(["out[16]"])
-
     no -->|"out[15]"| ng(["ng"])
-    no -->|"zr1 = out[0..7]"| o1["Or8Way"]
-    no -->|"zr2 = out[8..15]"| o2["Or8Way"]
-    o1 -->|or1| or["Or"]
-    o2 -->|or2| or
-    or -->|nonzero| not["Not"] --> zr(["zr"])
+    no -->|"zr1, zr2"| zr(["zr = Not(Or(Or8Way zr1, Or8Way zr2))"])
 ```
 
 Six control bits pick 18 functions: `zx nx` prepare `x`, `zy ny` prepare `y`, `f` chooses add or and, and `no` negates the result.
@@ -111,19 +93,25 @@ flowchart TB
     amux -->|aMuxOut| areg["ARegister<br/>load = aRegLoad"]
     areg -->|aRegOut| ymux["Mux16<br/>sel = instruction[12]"]
     inM(["inM[16]"]) --> ymux
-    ymux -->|aOrM| alu
-    dreg["DRegister<br/>load = loadD"] -->|outD| alu["ALU<br/>zx..no = instruction[11..6]"]
+    ymux -->|aOrM| alu["ALU<br/>zx..no = instruction[11..6]"]
+    dreg["DRegister<br/>load = loadD"] -->|outD| alu
     alu -->|aluOut| amux & dreg
     alu -->|outM| outM(["outM[16]"])
     areg -->|"addressM = aRegOut[0..14]"| addr(["addressM[15]"])
+```
 
-    alu -->|"zr, ng"| jmp["jump logic<br/>jlt · jeq · jgt from instruction[2..0]"]
+The control side picks the next instruction:
+
+```mermaid
+flowchart TB
+    flags(["ALU zr, ng"]) --> jmp["jump logic<br/>jlt · jeq · jgt from instruction[2..0]"]
     jmp -->|"PCload (gated by instruction[15])"| pc["PC<br/>inc = true"]
-    areg -->|aRegOut| pc
+    areg(["aRegOut"]) --> pc
     rst(["reset"]) --> pc
     pc -->|"pc[0..14]"| pcout(["pc[15]"])
-    ins -->|"instruction[15] and [3]"| wm(["writeM"])
 ```
+
+`writeM` is `instruction[15]` and `instruction[3]`.
 
 | Control wire | Built from | Means |
 |---|---|---|
